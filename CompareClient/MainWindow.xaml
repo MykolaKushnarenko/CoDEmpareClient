@@ -1,0 +1,120 @@
+﻿<Window x:Class="TextGUIModule.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="CoDEmpaire" Height="600" Width="900
+        " ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="MenuOpen">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="51"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0:0.5" Value="200"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="MenuClose">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0:0.5" Value="51"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="OpemMenuButton">
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="CloseMenuButton">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid >
+        <Grid x:Name="Title" Height="50" VerticalAlignment="Top" Background="#FF4D0080" MouseLeftButtonDown="Title_OnMouseLeftButtonDown">
+            <TextBlock Text="CoDempare" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="/CoDEmpare;component/Fonts/#HACKED"/>
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right">
+
+                <materialDesign:PopupBox  Margin="10" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                    <StackPanel Width="150">
+                        <Button Content="Account"/>
+                        <Button Content="Setting"/>
+                        <Button x:Name="HelpButt" Content="Help" Click="HelpButt_OnClick" />
+                        <Separator/>
+                        <Button x:Name="loOutBut" Content="Logout" Click="LoOutBut_OnClick"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+
+            </StackPanel>
+        </Grid>
+        <StackPanel Height="545" Width="1028" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+            <Grid x:Name="GridContentAction" Width="auto"/>
+        </StackPanel>
+        <Grid x:Name="GridMenu" Width="51" HorizontalAlignment="Left" Background="#FF4D0080">
+            <StackPanel>
+                <Grid Height="150" Background="{DynamicResource MaterialDesignPaper}">
+                    <Button x:Name="CloseMenuButton" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="Collapsed" Click="CloseMenuButton_OnClick">
+                        <materialDesign:PackIcon Foreground="BlueViolet" Kind="ArrowLeft" Width="25" Height="25"/>
+                    </Button>
+                    <Button x:Name="OpemMenuButton" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" Click="OpemMenuButton_OnClick" >
+                        <materialDesign:PackIcon Foreground="BlueViolet" Kind="Menu" Width="25" Height="25"/>
+                    </Button>
+                    <StackPanel x:Name="UserPhoto" Margin="20" Visibility="Collapsed">
+                        <materialDesign:Card UniformCornerRadius="80"  Height="85" Width="85" VerticalAlignment="Top" HorizontalAlignment="Left">
+                            <Image Width="70" Height="70" Source="Мангеке_Шаринган_Саске.ico" />
+                        </materialDesign:Card>
+                        <TextBlock Text="Nicholas Kushnarenko" FontFamily="/CoDEmpare;component/Fonts/#HACKED" FontSize="16" Margin="0 10 0 0"/>
+                    </StackPanel>
+                    
+                </Grid>
+            </StackPanel>
+            <Grid Margin="0 150 0 0" HorizontalAlignment="Left" Width="200">
+                <materialDesign:TransitioningContent x:Name="TransitionContentSlide" OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft,Duration=0:0:0.2 }">
+                    <Grid x:Name="GridSelection" Width="10" Height="75" Background="Gold"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </materialDesign:TransitioningContent>
+                <ListView Width="200" x:Name="ListViewMenu" SelectionChanged="ListViewMenu_OnSelectionChanged">
+                    <ListViewItem Height="75" Padding="0 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="File" Width="55" Height="55" Margin="0"/>
+                            <TextBlock Text="Добавить файл" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="75" Padding="0 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="DatabaseSearch" Width="55" Height="55"/>
+                            <TextBlock Text="Добавить и найти" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="75" Padding="0 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Database" Width="55" Height="55"/>
+                            <TextBlock Text="Поиск с базы" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="75" Padding="0 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="History" Width="55" Height="55"/>
+                            <TextBlock Text="История" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>
+
