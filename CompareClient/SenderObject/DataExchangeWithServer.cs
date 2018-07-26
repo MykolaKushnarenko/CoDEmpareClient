@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CoDEmpare.SenderObject
 {
@@ -31,33 +32,56 @@ namespace CoDEmpare.SenderObject
         {
             return Task.Run(() =>
             {
-                WebRequest request = WebRequest.Create(_serverAdresess + _adresess);
-                request.Method = _method;
-                request.ContentType = _contentType;
-                if (_method == "POST")
+                try
                 {
-                    byte[] data = Encoding.UTF8.GetBytes(_paramSend);
-                    request.ContentLength = data.Length;
-                    using (Stream stream = request.GetRequestStream())
+                    WebRequest request = WebRequest.Create(_serverAdresess + _adresess);
+                    request.Method = _method;
+                    request.ContentType = _contentType;
+                    if (_method == "POST")
                     {
-                        stream.Write(data, 0, data.Length);
+                        byte[] data = Encoding.UTF8.GetBytes(_paramSend);
+                        request.ContentLength = data.Length;
+                        using (Stream stream = request.GetRequestStream())
+                        {
+                            stream.Write(data, 0, data.Length);
+                        }
                     }
-                }
 
-                WebResponse response = request.GetResponse();
-                string res;
-                using (Stream inputStream = response.GetResponseStream())
+                    WebResponse response = request.GetResponse();
+                    string res;
+                    using (Stream inputStream = response.GetResponseStream())
+                    {
+                        using (StreamReader reader = new StreamReader(inputStream))
+                        {
+                            res = reader.ReadToEnd();
+                        }
+                    }
+
+                    return res;
+                }
+                catch (WebException e)
                 {
-                    using (StreamReader reader = new StreamReader(inputStream))
+                    if (e.Status == WebExceptionStatus.ConnectFailure)
                     {
-                        res = reader.ReadToEnd();
+                        MessageBox.Show("NOT CONECCTION !", "ERROR", MessageBoxButton.OK);
                     }
+                    else if (e.Status == WebExceptionStatus.ProtocolError)
+                    {
+                        MessageBox.Show("Problem in date send", "ERROR", MessageBoxButton.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sorry, this function not work. Send message to suppurt");
+                    }
+                    return null;
                 }
-
-                return res;
+                catch (Exception e)
+                {
+                    MessageBox.Show("Sorry, this function not work. Send message to suppurt");
+                    return null;
+                }
+                
             });
-
-
         }
     }
 }

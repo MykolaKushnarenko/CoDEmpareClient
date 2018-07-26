@@ -58,6 +58,7 @@ namespace CoDEmpare.WinPage
             };
             DataExchangeWithServer getCompilName = new DataExchangeWithServer("AddCode", "POST", JsonConvert.SerializeObject(sendParams), "application/json", true);
             string result = await getCompilName.SendToServer();
+            if (result == null) return;
             List<string> resultFromServer = JsonConvert.DeserializeObject<List<string>>(result);
             FillTheListBackResult(resultFromServer);
             this.Close();

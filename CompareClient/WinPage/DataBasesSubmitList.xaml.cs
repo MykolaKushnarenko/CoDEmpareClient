@@ -36,8 +36,9 @@ namespace CoDEmpare.WinPage
 
         private async void LoadListSubmit()
         {
-            DataExchangeWithServer getCompilName = new DataExchangeWithServer("GetListSubmit", "GET", "", "application/json", true);
-            string result = await getCompilName.SendToServer();
+            DataExchangeWithServer getAllSubmit = new DataExchangeWithServer("GetListSubmit", "GET", "", "application/json", true);
+            string result = await getAllSubmit.SendToServer();
+            if (result == null) return;
             List<string> listSubm = JsonConvert.DeserializeObject<List<string>>(result);
             foreach (string submit in listSubm)
             {
@@ -49,8 +50,9 @@ namespace CoDEmpare.WinPage
         {
             string wordFromItemsList = SubmitList.SelectedValue.ToString();
             string[] get = wordFromItemsList?.Split(new char[] { '|' });
-            DataExchangeWithServer getCompilName = new DataExchangeWithServer("SearchFromListSubmit", "POST", $"tagForSearch={get[get.Length - 1]}", "application/x-www-form-urlencoded", true);
-            string result = await getCompilName.SendToServer();
+            DataExchangeWithServer getResultCompareFromSubmitList = new DataExchangeWithServer("SearchFromListSubmit", "POST", $"tagForSearch={get[get.Length - 1]}", "application/x-www-form-urlencoded", true);
+            string result = await getResultCompareFromSubmitList.SendToServer();
+            if (result == null) return;
             _resultMethod(JsonConvert.DeserializeObject<List<string>>(result));
 
 

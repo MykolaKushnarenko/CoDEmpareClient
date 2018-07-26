@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CoDEmpare.SenderObject;
+using Newtonsoft.Json;
 using TextGUIModule;
 
 namespace CoDEmpare.WinPage
@@ -27,14 +29,17 @@ namespace CoDEmpare.WinPage
             UpdateHistoryList();
         }
 
-        private void UpdateHistoryList()
+        private async void UpdateHistoryList()
         {
-            //List<string> listHistory = _dataBase.GetListHistory();
-            //FileListCompil.Items.Clear();
-            //foreach (var desc in listHistory)
-            //{
-            //    FileListCompil.Items.Add(desc);
-            //}
+            DataExchangeWithServer getHistory = new DataExchangeWithServer("GetListHistory", "GET", "", "application/json", true);
+            string result = await getHistory.SendToServer();
+            if (result == null) return;
+            List<string> listHistory = JsonConvert.DeserializeObject<List<string>>(result);
+            FileListCompil.Items.Clear();
+            foreach (var desc in listHistory)
+            {
+                FileListCompil.Items.Add(desc);
+            }
         }
     }
 }
