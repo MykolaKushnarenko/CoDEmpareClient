@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TextGUIModule;
+using System.Net;
+using CoDEmpare.SenderObject;
+using Newtonsoft.Json;
 
 namespace CoDEmpare.WinPage
 {
@@ -21,31 +25,34 @@ namespace CoDEmpare.WinPage
     /// </summary>
     public partial class DataBasesSubmitList : UserControl
     {
-        public Action<bool> _resultMethod;
+        public Action<List<string>> _resultMethod;
 
-        public DataBasesSubmitList(Action<bool> method)
+        public DataBasesSubmitList(Action<List<string>> method)
         {
             _resultMethod = method;
             InitializeComponent();
             LoadListSubmit();
         }
 
-        private void LoadListSubmit()
+        private async void LoadListSubmit()
         {
-            //List<string> listSubm = _dataBase.DescSubm();
-            //foreach (string submit in listSubm)
-            //{
-            //    SubmitList.Items.Add(submit);
-            //}
+            DataExchangeWithServer getCompilName = new DataExchangeWithServer("GetListSubmit", "GET", "", "application/json", true);
+            string result = await getCompilName.SendToServer();
+            List<string> listSubm = JsonConvert.DeserializeObject<List<string>>(result);
+            foreach (string submit in listSubm)
+            {
+                SubmitList.Items.Add(submit);
+            }
         }
 
-        private void SubmitList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void SubmitList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string wordFromItemsList = SubmitList.SelectedValue.ToString();
             string[] get = wordFromItemsList?.Split(new char[] { '|' });
-            //_dataBase.SearchIn(get[get.Length - 1]);
-            //_resultMethod(_dataBase, true);
-            
+            DataExchangeWithServer getCompilName = new DataExchangeWithServer("SearchFromListSubmit", "POST", $"tagForSearch={get[get.Length - 1]}", "application/x-www-form-urlencoded", true);
+            string result = await getCompilName.SendToServer();
+            _resultMethod(JsonConvert.DeserializeObject<List<string>>(result));
+
 
         }
     }

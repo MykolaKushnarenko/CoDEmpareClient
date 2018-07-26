@@ -69,8 +69,8 @@ namespace TextGUIModule
                     GridContentAction.Children.Add(new AddingSubmit(Result, true));
                     break;
                 case 2:
-                    //GridContentAction.Children.Clear();
-                    //GridContentAction.Children.Add(new DataBasesSubmitList(_db, Result));
+                    GridContentAction.Children.Clear();
+                    GridContentAction.Children.Add(new DataBasesSubmitList(Result));
                     break;
                 case 3:
                     GridContentAction.Children.Clear();

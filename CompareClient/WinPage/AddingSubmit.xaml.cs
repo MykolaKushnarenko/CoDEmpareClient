@@ -18,6 +18,7 @@ using Microsoft.Win32;
 using TextGUIModule;
 using Newtonsoft.Json;
 using System.Net;
+using CoDEmpare.SenderObject;
 
 namespace CoDEmpare.WinPage
 {
@@ -67,29 +68,31 @@ namespace CoDEmpare.WinPage
             }
         }
 
-        private void PrintCompilName(string lang)
+        private async void PrintCompilName(string lang)
         {
-            WebRequest request = WebRequest.Create("http://localhost:50373/Home/GetComipeType");
-            request.Method = "POST";
-            string paramsSend = $"lang={lang}";
-            request.ContentType = "application/x-www-form-urlencoded";
-            byte[] data = Encoding.UTF8.GetBytes(paramsSend);
-            request.ContentLength = data.Length;
-            using (Stream stream = request.GetRequestStream())
-            {
-                stream.Write(data, 0, data.Length);
-            }
-            WebResponse response = request.GetResponse();
-            string res;
-            using (Stream inputStream = response.GetResponseStream())
-            {
-                using (StreamReader reader = new StreamReader(inputStream))
-                {
-                    res = reader.ReadToEnd();
-                }
-            }
+            DataExchangeWithServer getCompilName = new DataExchangeWithServer("GetComipeType", "POST", $"lang={lang}", "application/x-www-form-urlencoded",true);
+            string result = await getCompilName.SendToServer();
+            //WebRequest request = WebRequest.Create("http://localhost:50373/Home/GetComipeType");
+            //request.Method = "POST";
+            //string paramsSend = $"lang={lang}";
+            //request.ContentType = "application/x-www-form-urlencoded";
+            //byte[] data = Encoding.UTF8.GetBytes(paramsSend);
+            //request.ContentLength = data.Length;
+            //using (Stream stream = request.GetRequestStream())
+            //{
+            //    stream.Write(data, 0, data.Length);
+            //}
+            //WebResponse response = request.GetResponse();
+            //string res;
+            //using (Stream inputStream = response.GetResponseStream())
+            //{
+            //    using (StreamReader reader = new StreamReader(inputStream))
+            //    {
+            //        res = reader.ReadToEnd();
+            //    }
+            //}
 
-            List<string> typeCompl = JsonConvert.DeserializeObject<List<string>>(res);
+            List<string> typeCompl = JsonConvert.DeserializeObject<List<string>>(result);
             //List<string> typeCompils = _dataBase.GetCompile(language);
             foreach (var typeCompil in typeCompl)
             {

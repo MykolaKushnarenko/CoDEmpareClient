@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TextGUIModule;
 using System.Net;
+using CoDEmpare.SenderObject;
 using Newtonsoft.Json;
 namespace CoDEmpare.WinPage
 {
@@ -46,9 +47,6 @@ namespace CoDEmpare.WinPage
 
         private async void Load()
         {
-
-            WebRequest request = WebRequest.Create("http://localhost:50373/Home/AddCode");
-            request.Method = "POST";
             AddingCodeObject sendParams = new AddingCodeObject()
             {
                 Name = _name,
@@ -58,34 +56,10 @@ namespace CoDEmpare.WinPage
                 FileMane = _fileName,
                 Code = _code
             };
-            string s = JsonConvert.SerializeObject(sendParams);
-            byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(sendParams));
-            request.ContentLength = data.Length;
-            request.ContentType = "application/json";
-            using (Stream stream = await request.GetRequestStreamAsync())
-            {
-                await stream.WriteAsync(data, 0, data.Length);
-            }
-
-
-            string getAnswer = await Task.Run(() =>
-            {
-                string res;
-                using (WebResponse responses = (WebResponse) request.GetResponse())
-                {
-                    using (var reader = new StreamReader(responses.GetResponseStream()))
-                    {
-                        res = reader.ReadToEnd();
-                    }
-                }
-
-                return res;
-            });
-           
-
-            List<string> resultFromServer = JsonConvert.DeserializeObject<List<string>>(getAnswer);
+            DataExchangeWithServer getCompilName = new DataExchangeWithServer("AddCode", "POST", JsonConvert.SerializeObject(sendParams), "application/json", true);
+            string result = await getCompilName.SendToServer();
+            List<string> resultFromServer = JsonConvert.DeserializeObject<List<string>>(result);
             FillTheListBackResult(resultFromServer);
-            //AddingSubmit(l, _description, _typeCompile, _path, _isSearch);
             this.Close();
         }
 
