@@ -23,10 +23,13 @@ namespace CoDEmpare.WinPage
     public partial class AuthorizationWindow : Window
     {
         private Action visibleMainWindow;
-        public AuthorizationWindow(Action method)
+        private Action _closeProgram;
+        public AuthorizationWindow(Action method, Action closeMethod)
         {
+
             InitializeComponent();
             visibleMainWindow += method;
+            _closeProgram += closeMethod;
         }
 
         private void SkipButton_OnClick(object sender, RoutedEventArgs e)
@@ -56,6 +59,12 @@ namespace CoDEmpare.WinPage
             {
                 Error.Visibility = Visibility.Visible;
             }
+        }
+
+        private void CloseButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _closeProgram();
+            this.Close();
         }
     }
 }

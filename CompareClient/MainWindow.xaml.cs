@@ -24,7 +24,6 @@ namespace TextGUIModule
         public MainWindow()
         {
             InitializeComponent();
-            //_db = new DataBaseLite();
             GridContentAction.Children.Add(new AddingSubmit(Result, false));
             Visibility = Visibility.Hidden;
             AutificationWindow();
@@ -32,7 +31,7 @@ namespace TextGUIModule
 
         private void AutificationWindow()
         {
-            AuthorizationWindow login = new AuthorizationWindow(VisibilityAfterUutification);
+            AuthorizationWindow login = new AuthorizationWindow(VisibilityAfterUutification, CloseProgram);
             login.ShowDialog();
         }
         private void LoOutBut_OnClick(object sender, RoutedEventArgs e)
@@ -113,6 +112,11 @@ namespace TextGUIModule
         private void VisibilityAfterUutification()
         {
             this.Visibility = Visibility.Visible;
+        }
+
+        private void CloseProgram()
+        {
+            this.Close();
         }
     }
 }

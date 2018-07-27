@@ -18,6 +18,9 @@
             </Rectangle.Fill>
         </Rectangle>
         <materialDesign:PackIcon Foreground="WhiteSmoke" Kind="HomeCircle" Height="100" Width="100" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20"/>
+        <Button x:Name="CloseButton" Height="30" Width="30" VerticalAlignment="Top" HorizontalAlignment="Right" Background="{x:Null}" Foreground="{x:Null}" BorderBrush="{x:Null}" Margin="0" Padding="0" Click="CloseButton_OnClick">
+            <materialDesign:PackIcon Foreground="WhiteSmoke" Kind="Close" Height="30" Width="30"/>
+        </Button>
         <Rectangle Width="280" Height="240" Fill="White" VerticalAlignment="Bottom" Margin="0,100" RadiusY="15" RadiusX="15">
             <Rectangle.Effect>
                 <DropShadowEffect Color="#FFBBBBBB" Direction="0" BlurRadius="15" RenderingBias="Quality" ShadowDepth="1"/>
