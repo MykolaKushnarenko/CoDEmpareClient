@@ -134,7 +134,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddingCodeObject.cs" />
+    <Compile Include="ObjectParamsSender\AddingCodeObject.cs" />
+    <Compile Include="ObjectParamsSender\RegistrationObject.cs" />
     <Compile Include="SenderObject\DataExchangeWithServer.cs" />
     <Compile Include="WinPage\AddingSubmit.xaml.cs">
       <DependentUpon>AddingSubmit.xaml</DependentUpon>

@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CoDEmpare.ObjectParamsSender;
+using CoDEmpare.SenderObject;
+using Newtonsoft.Json;
 using TextGUIModule;
 
 namespace CoDEmpare.WinPage
@@ -25,14 +28,23 @@ namespace CoDEmpare.WinPage
             InitializeComponent();
         }
 
-        private void SinglUp_OnClick(object sender, RoutedEventArgs e)
+        private async void SinglUp_OnClick(object sender, RoutedEventArgs e)
         {
             
             if (Password.Password == PasswordSecond.Password && Password.Password.Replace(" ", "") != ""
                 && Name.Text.Replace(" ", "") != "" && Email.Text.Replace(" ", "") != "")
             {
                 
-                
+                RegistrationObject sendParams = new RegistrationObject()
+                {
+                    Name = Name.Text,
+                    EMail = Email.Text,
+                    Password = Password.Password
+                };
+
+                DataExchangeWithServer getCompilName = new DataExchangeWithServer("Registration", "POST", JsonConvert.SerializeObject(sendParams), "application/json", true);
+                string result = await getCompilName.SendToServer();
+                if (result == null) return;
                 MessageBox.Show("OK!", "Result");
                 this.Close();
             }
