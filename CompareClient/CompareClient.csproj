@@ -143,9 +143,6 @@
     <Compile Include="WinPage\AuthorizationWindow.xaml.cs">
       <DependentUpon>AuthorizationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WinPage\ChooseAndCompare.xaml.cs">
-      <DependentUpon>ChooseAndCompare.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WinPage\DataBasesSubmitList.xaml.cs">
       <DependentUpon>DataBasesSubmitList.xaml</DependentUpon>
     </Compile>
@@ -181,10 +178,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WinPage\AuthorizationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WinPage\ChooseAndCompare.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

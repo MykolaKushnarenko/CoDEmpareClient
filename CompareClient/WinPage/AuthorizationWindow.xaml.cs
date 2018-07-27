@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CoDEmpare.SenderObject;
+using Newtonsoft.Json;
 using TextGUIModule;
 
 namespace CoDEmpare.WinPage
@@ -38,19 +40,22 @@ namespace CoDEmpare.WinPage
             new RegistrationWindow().ShowDialog();
         }
 
-        private void LoginButton_OnClick(object sender, RoutedEventArgs e)
+        private async void LoginButton_OnClick(object sender, RoutedEventArgs e)
         {
             bool isComplite;
-            //isComplite =_dataBase.Autification(Email.Text, Password.Password);
-            //if (isComplite == true)
-            //{
-            //    visibleMainWindow();
-            //    this.Close();
-            //}
-            //else
-            //{
-            //    Error.Visibility = Visibility.Visible;
-            //}
+            DataExchangeWithServer authorization = new DataExchangeWithServer("Autification", "POST", $"login={Email.Text}&password={Password.Password}", "application/x-www-form-urlencoded", true);
+            string result = await authorization.SendToServer();
+            if (result == null) return;
+            isComplite = JsonConvert.DeserializeObject<bool>(result);
+            if (isComplite == true)
+            {
+                visibleMainWindow();
+                this.Close();
+            }
+            else
+            {
+                Error.Visibility = Visibility.Visible;
+            }
         }
     }
 }

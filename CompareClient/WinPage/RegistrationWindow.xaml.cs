@@ -42,8 +42,8 @@ namespace CoDEmpare.WinPage
                     Password = Password.Password
                 };
 
-                DataExchangeWithServer getCompilName = new DataExchangeWithServer("Registration", "POST", JsonConvert.SerializeObject(sendParams), "application/json", true);
-                string result = await getCompilName.SendToServer();
+                DataExchangeWithServer registrationSend = new DataExchangeWithServer("Registration", "POST", JsonConvert.SerializeObject(sendParams), "application/json", true);
+                string result = await registrationSend.SendToServer();
                 if (result == null) return;
                 MessageBox.Show("OK!", "Result");
                 this.Close();
