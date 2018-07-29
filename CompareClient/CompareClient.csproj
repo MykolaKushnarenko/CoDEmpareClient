@@ -143,6 +143,9 @@
     <Compile Include="WinPage\AuthorizationWindow.xaml.cs">
       <DependentUpon>AuthorizationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WinPage\ChangeUserInfo.xaml.cs">
+      <DependentUpon>ChangeUserInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WinPage\DataBasesSubmitList.xaml.cs">
       <DependentUpon>DataBasesSubmitList.xaml</DependentUpon>
     </Compile>
@@ -178,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WinPage\AuthorizationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinPage\ChangeUserInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

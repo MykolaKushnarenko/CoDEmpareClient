@@ -24,12 +24,14 @@ namespace CoDEmpare.WinPage
     {
         private Action visibleMainWindow;
         private Action _closeProgram;
-        public AuthorizationWindow(Action method, Action closeMethod)
+        private Action<string> _nameUserGet;
+        public AuthorizationWindow(Action method, Action closeMethod, Action<string> enterName)
         {
 
             InitializeComponent();
             visibleMainWindow += method;
             _closeProgram += closeMethod;
+            _nameUserGet += enterName;
         }
 
         private void SkipButton_OnClick(object sender, RoutedEventArgs e)
@@ -45,13 +47,14 @@ namespace CoDEmpare.WinPage
 
         private async void LoginButton_OnClick(object sender, RoutedEventArgs e)
         {
-            bool isComplite;
+            List<object> isComplite;
             DataExchangeWithServer authorization = new DataExchangeWithServer("Autification", "POST", $"login={Email.Text}&password={Password.Password}", "application/x-www-form-urlencoded", true);
             string result = await authorization.SendToServer();
             if (result == null) return;
-            isComplite = JsonConvert.DeserializeObject<bool>(result);
-            if (isComplite == true)
+            isComplite = JsonConvert.DeserializeObject<List<object>>(result);
+            if ((bool)isComplite[0] == true)
             {
+                _nameUserGet((string)isComplite[1]);
                 visibleMainWindow();
                 this.Close();
             }

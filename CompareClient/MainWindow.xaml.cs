@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Data;
-using System.Data.SQLite;
 using CoDEmpare.WinPage;
 using Microsoft.Win32;
 using winForms = System.Windows.Forms;
@@ -21,6 +15,7 @@ namespace TextGUIModule
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string _nameUser { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -31,8 +26,9 @@ namespace TextGUIModule
 
         private void AutificationWindow()
         {
-            AuthorizationWindow login = new AuthorizationWindow(VisibilityAfterUutification, CloseProgram);
+            AuthorizationWindow login = new AuthorizationWindow(VisibilityAfterUutification, CloseProgram, SetName);
             login.ShowDialog();
+            NameUser.Text = _nameUser;
         }
         private void LoOutBut_OnClick(object sender, RoutedEventArgs e)
         {
@@ -117,6 +113,17 @@ namespace TextGUIModule
         private void CloseProgram()
         {
             this.Close();
+        }
+
+        private void AccountInfo_OnClick(object sender, RoutedEventArgs e)
+        {
+            GridContentAction.Children.Clear();
+            GridContentAction.Children.Add(new ChangeUserInfo());
+        }
+
+        private void SetName(string name)
+        {
+            _nameUser = name;
         }
     }
 }
