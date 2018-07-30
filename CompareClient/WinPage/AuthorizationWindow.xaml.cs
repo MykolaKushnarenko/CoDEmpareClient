@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,13 +26,15 @@ namespace CoDEmpare.WinPage
         private Action visibleMainWindow;
         private Action _closeProgram;
         private Action<string> _nameUserGet;
-        public AuthorizationWindow(Action method, Action closeMethod, Action<string> enterName)
+        private Action<BitmapImage> _setProfilImage;
+        public AuthorizationWindow(Action method, Action closeMethod, Action<string> enterName, Action<BitmapImage> methodToSetProfilImage)
         {
 
             InitializeComponent();
             visibleMainWindow += method;
             _closeProgram += closeMethod;
             _nameUserGet += enterName;
+            _setProfilImage += methodToSetProfilImage;
         }
 
         private void SkipButton_OnClick(object sender, RoutedEventArgs e)
@@ -55,6 +58,7 @@ namespace CoDEmpare.WinPage
             if ((bool)isComplite[0] == true)
             {
                 _nameUserGet((string)isComplite[1]);
+                ConvertToImage(JsonConvert.DeserializeObject<byte[]>((string)isComplite[2]));
                 visibleMainWindow();
                 this.Close();
             }
@@ -64,6 +68,16 @@ namespace CoDEmpare.WinPage
             }
         }
 
+        private void ConvertToImage(byte[] data)
+        {
+            MemoryStream read = new MemoryStream(data);
+            BitmapImage enterImage = new BitmapImage();
+            enterImage.BeginInit();
+            enterImage.CacheOption = BitmapCacheOption.OnLoad;
+            enterImage.StreamSource = read;
+            enterImage.EndInit();
+            _setProfilImage(enterImage);
+        }
         private void CloseButton_OnClick(object sender, RoutedEventArgs e)
         {
             _closeProgram();

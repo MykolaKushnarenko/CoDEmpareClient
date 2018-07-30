@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CoDEmpare.SenderObject;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace CoDEmpare.WinPage
 {
@@ -21,12 +24,16 @@ namespace CoDEmpare.WinPage
     /// </summary>
     public partial class ChangeUserInfo : UserControl
     {
-        public ChangeUserInfo()
+        private readonly Action<BitmapImage> _changeProfilImage;
+        private readonly string _nameUser;
+        public ChangeUserInfo(string name, Action<BitmapImage> method)
         {
+            _changeProfilImage = method;
+            _nameUser = name;
             InitializeComponent();
         }
 
-        private void ImageLoad_OnClick(object sender, RoutedEventArgs e)
+        private async void ImageLoad_OnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog imageDialog = new OpenFileDialog()
             {
@@ -36,11 +43,17 @@ namespace CoDEmpare.WinPage
             };
             if (imageDialog.ShowDialog() == true)
             {
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = new Uri(imageDialog.FileName, UriKind.Relative);
-                bitmapImage.EndInit();
-                UserPhoto.Source = new BitmapImage(new Uri(imageDialog.FileName));
+                byte[] data = File.ReadAllBytes(imageDialog.FileName);
+                DataExchangeWithServer updateImage = new DataExchangeWithServer("ChangeUserImage", "POST", $"sendImage={JsonConvert.SerializeObject(data)}&name={_nameUser}", "application/x-www-form-urlencoded", true);
+                string result = await updateImage.SendToServer();
+                if (result == null) return;
+                MemoryStream read = new MemoryStream(data);
+                BitmapImage enterImage = new BitmapImage();
+                enterImage.BeginInit();
+                enterImage.CacheOption = BitmapCacheOption.OnLoad;
+                enterImage.StreamSource = read;
+                enterImage.EndInit();
+                _changeProfilImage(enterImage);
             }
             
         }

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Data;
+using System.Windows.Media.Imaging;
 using CoDEmpare.WinPage;
 using Microsoft.Win32;
 using winForms = System.Windows.Forms;
@@ -26,7 +27,7 @@ namespace TextGUIModule
 
         private void AutificationWindow()
         {
-            AuthorizationWindow login = new AuthorizationWindow(VisibilityAfterUutification, CloseProgram, SetName);
+            AuthorizationWindow login = new AuthorizationWindow(VisibilityAfterUutification, CloseProgram, SetName, SetImageProfile);
             login.ShowDialog();
             NameUser.Text = _nameUser;
         }
@@ -118,12 +119,17 @@ namespace TextGUIModule
         private void AccountInfo_OnClick(object sender, RoutedEventArgs e)
         {
             GridContentAction.Children.Clear();
-            GridContentAction.Children.Add(new ChangeUserInfo());
+            GridContentAction.Children.Add(new ChangeUserInfo(_nameUser, SetImageProfile));
         }
 
         private void SetName(string name)
         {
             _nameUser = name;
+        }
+
+        private void SetImageProfile(BitmapImage image)
+        {
+            ProfilImage.Source = image;
         }
     }
 }
