@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CoDEmpare.SenderObject;
 using Newtonsoft.Json;
+using System.Drawing;
 using TextGUIModule;
 
 namespace CoDEmpare.WinPage
@@ -26,8 +27,8 @@ namespace CoDEmpare.WinPage
         private Action visibleMainWindow;
         private Action _closeProgram;
         private Action<string> _nameUserGet;
-        private Action<BitmapImage> _setProfilImage;
-        public AuthorizationWindow(Action method, Action closeMethod, Action<string> enterName, Action<BitmapImage> methodToSetProfilImage)
+        private Action<ImageSource> _setProfilImage;
+        public AuthorizationWindow(Action method, Action closeMethod, Action<string> enterName, Action<ImageSource> methodToSetProfilImage)
         {
 
             InitializeComponent();
@@ -70,13 +71,24 @@ namespace CoDEmpare.WinPage
 
         private void ConvertToImage(byte[] data)
         {
-            MemoryStream read = new MemoryStream(data);
-            BitmapImage enterImage = new BitmapImage();
-            enterImage.BeginInit();
-            enterImage.CacheOption = BitmapCacheOption.OnLoad;
-            enterImage.StreamSource = read;
-            enterImage.EndInit();
-            _setProfilImage(enterImage);
+            if (data.Length != 0)
+            {
+                MemoryStream read = new MemoryStream(data);
+                BitmapImage image = new BitmapImage();
+                read.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = read;
+                image.EndInit();
+
+                ImageSource imageSource = image as ImageSource;
+                _setProfilImage(imageSource);
+            }
+            
+
+            
         }
         private void CloseButton_OnClick(object sender, RoutedEventArgs e)
         {

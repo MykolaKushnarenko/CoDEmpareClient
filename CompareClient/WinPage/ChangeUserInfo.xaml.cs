@@ -24,9 +24,9 @@ namespace CoDEmpare.WinPage
     /// </summary>
     public partial class ChangeUserInfo : UserControl
     {
-        private readonly Action<BitmapImage> _changeProfilImage;
+        private readonly Action<ImageSource> _changeProfilImage;
         private readonly string _nameUser;
-        public ChangeUserInfo(string name, Action<BitmapImage> method)
+        public ChangeUserInfo(string name, Action<ImageSource> method)
         {
             _changeProfilImage = method;
             _nameUser = name;
@@ -43,17 +43,21 @@ namespace CoDEmpare.WinPage
             };
             if (imageDialog.ShowDialog() == true)
             {
-                byte[] data = File.ReadAllBytes(imageDialog.FileName);
-                DataExchangeWithServer updateImage = new DataExchangeWithServer("ChangeUserImage", "POST", $"sendImage={JsonConvert.SerializeObject(data)}&name={_nameUser}", "application/x-www-form-urlencoded", true);
+                FileStream stream = new FileStream(
+                    imageDialog.FileName, FileMode.Open, FileAccess.Read);
+                BinaryReader reader = new BinaryReader(stream);
+
+                byte[] photo = reader.ReadBytes((int)stream.Length);
+                DataExchangeWithServer updateImage = new DataExchangeWithServer("ChangeUserImage", "POST", $"sendImage={JsonConvert.SerializeObject(photo)}&name={_nameUser}", "application/x-www-form-urlencoded", true);
                 string result = await updateImage.SendToServer();
                 if (result == null) return;
-                MemoryStream read = new MemoryStream(data);
+                MemoryStream read = new MemoryStream(photo);
                 BitmapImage enterImage = new BitmapImage();
                 enterImage.BeginInit();
                 enterImage.CacheOption = BitmapCacheOption.OnLoad;
                 enterImage.StreamSource = read;
                 enterImage.EndInit();
-                _changeProfilImage(enterImage);
+                _changeProfilImage(enterImage as ImageSource);
             }
             
         }

@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Data;
 using System.Windows.Media.Imaging;
+using System.Drawing;
+using System.Windows.Media;
 using CoDEmpare.WinPage;
 using Microsoft.Win32;
 using winForms = System.Windows.Forms;
@@ -127,9 +129,10 @@ namespace TextGUIModule
             _nameUser = name;
         }
 
-        private void SetImageProfile(BitmapImage image)
+        private void SetImageProfile(ImageSource image)
         {
             ProfilImage.Source = image;
+            
         }
     }
 }
