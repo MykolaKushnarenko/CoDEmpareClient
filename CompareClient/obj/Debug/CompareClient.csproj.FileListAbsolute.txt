@@ -207,9 +207,6 @@ C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\NuGet.Squirr
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\SharpCompress.dll
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\Splat.dll
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\Squirrel.dll
-C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\System.Data.SQLite.dll
-C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\System.Data.SQLite.EF6.dll
-C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\System.Data.SQLite.Linq.dll
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\EntityFramework.xml
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\MaterialDesignThemes.Wpf.pdb
@@ -218,8 +215,6 @@ C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\Newtonsoft.J
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\NuGet.Squirrel.pdb
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\Splat.pdb
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\Squirrel.pdb
-C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\System.Data.SQLite.xml
-C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\System.Data.SQLite.dll.config
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\obj\Debug\CompareClient.csprojAssemblyReference.cache
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\obj\Debug\MainWindow.baml
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\obj\Debug\MainWindow.g.cs
@@ -252,3 +247,5 @@ C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\obj\Debug\CoDEmpare.ex
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\obj\Debug\CoDEmpare.pdb
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\obj\Debug\WinPage\ChangeUserInfo.g.cs
 C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\obj\Debug\WinPage\ChangeUserInfo.baml
+C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\TempleteAlgorithm.dll
+C:\Users\nikok\Desktop\Code\CodempareClient\CompareClient\bin\Debug\TempleteAlgorithm.pdb

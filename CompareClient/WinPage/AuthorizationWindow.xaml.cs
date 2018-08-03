@@ -82,7 +82,6 @@ namespace CoDEmpare.WinPage
                 image.UriSource = null;
                 image.StreamSource = read;
                 image.EndInit();
-
                 ImageSource imageSource = image as ImageSource;
                 _setProfilImage(imageSource);
             }

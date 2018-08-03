@@ -116,11 +116,16 @@ namespace CoDEmpare.WinPage
             {
                 lang = (string)JavaLanguage.Content;
             }
-            LoadWindow load = new LoadWindow(NameAuthor.Text, Description.Text, typeCompiler, _search, GetCode(), GetFileName(), ref _result);
+            LoadWindow load = new LoadWindow(NameAuthor.Text, Description.Text, typeCompiler, _search, GetCode(), FileName, ref _result, CompareMy.IsChecked ?? true);
             load.ShowDialog();
-            if (_search)
+            if (_search && (CompareMy.IsChecked ?? false))
             {
                 _swichToResutl(_result);
+            }
+            else if (_search && (CompareMy.IsChecked ?? true))
+            {
+                LoadAlgorithmReflection myAlgorithmReflection = new LoadAlgorithmReflection(JsonConvert.DeserializeObject<List<string>>(_result[6]), 
+                    JsonConvert.DeserializeObject<List<string>>(_result[7]));
             }
             else
             {
@@ -133,7 +138,6 @@ namespace CoDEmpare.WinPage
         private byte[] GetCode()
         {
             StreamReader file = new StreamReader(_path);
-
             byte[] code = file.CurrentEncoding.GetBytes(file.ReadToEnd());
             return code;
         }
@@ -146,9 +150,6 @@ namespace CoDEmpare.WinPage
             }
             return _codeList;
         }
-        private string GetFileName()
-        {
-            return System.IO.Path.GetFileName(_path);
-        }
+        private string FileName => System.IO.Path.GetFileName(_path);
     }
 }

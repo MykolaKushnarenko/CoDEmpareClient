@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TextGUIModule;
 using System.Net;
+using System.Runtime.InteropServices;
 using CoDEmpare.SenderObject;
 using Newtonsoft.Json;
 namespace CoDEmpare.WinPage
@@ -31,7 +32,8 @@ namespace CoDEmpare.WinPage
         private readonly byte[] _code;
         private readonly string _fileName;
         private List<string> _result;
-        public LoadWindow(string name, string description, string type, bool isSearch, byte[] code, string Filename, ref List<string> result)
+        private readonly bool _compareLocal;
+        public LoadWindow(string name, string description, string type, bool isSearch, byte[] code, string Filename, ref List<string> result, bool compareLocal)
         {
             InitializeComponent();
             _name = name;
@@ -42,6 +44,7 @@ namespace CoDEmpare.WinPage
             _typeCompile = type;
             _isSearch = isSearch;
             _result = result;
+            _compareLocal = compareLocal;
             Load();
         }
 
@@ -54,7 +57,9 @@ namespace CoDEmpare.WinPage
                 CompileType = _typeCompile,
                 IsSearch = _isSearch,
                 FileMane = _fileName,
-                Code = _code
+                Code = _code,
+                CompareLocal = _compareLocal
+                
             };
             DataExchangeWithServer getCompilName = new DataExchangeWithServer("AddCode", "POST", JsonConvert.SerializeObject(sendParams), "application/json", true);
             string result = await getCompilName.SendToServer();

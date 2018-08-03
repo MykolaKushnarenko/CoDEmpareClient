@@ -33,10 +33,7 @@ namespace TextGUIModule
             login.ShowDialog();
             NameUser.Text = _nameUser;
         }
-        private void LoOutBut_OnClick(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
+        private void LoOutBut_OnClick(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
 
         private void OpemMenuButton_OnClick(object sender, RoutedEventArgs e)
         {
@@ -97,10 +94,7 @@ namespace TextGUIModule
 
         }
 
-        private void Title_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
+        private void Title_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 
         private void HelpButt_OnClick(object sender, RoutedEventArgs e)
         {
@@ -108,15 +102,9 @@ namespace TextGUIModule
             GridContentAction.Children.Add(new HelpPage());
         }
 
-        private void VisibilityAfterUutification()
-        {
-            this.Visibility = Visibility.Visible;
-        }
+        private void VisibilityAfterUutification() => this.Visibility = Visibility.Visible;
 
-        private void CloseProgram()
-        {
-            this.Close();
-        }
+        private void CloseProgram() => this.Close();
 
         private void AccountInfo_OnClick(object sender, RoutedEventArgs e)
         {
@@ -124,16 +112,9 @@ namespace TextGUIModule
             GridContentAction.Children.Add(new ChangeUserInfo(_nameUser, SetImageProfile));
         }
 
-        private void SetName(string name)
-        {
-            _nameUser = name;
-        }
+        private void SetName(string name) => _nameUser = name;
 
-        private void SetImageProfile(ImageSource image)
-        {
-            ProfilImage.Source = image;
-            
-        }
+        private void SetImageProfile(ImageSource image) => ProfilImage.Source = image;
     }
 }
 
