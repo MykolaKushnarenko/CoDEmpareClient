@@ -18,6 +18,7 @@ using Microsoft.Win32;
 using TextGUIModule;
 using Newtonsoft.Json;
 using System.Net;
+using CoDEmpare.ObjectParamsSender;
 using CoDEmpare.SenderObject;
 
 namespace CoDEmpare.WinPage
@@ -27,15 +28,16 @@ namespace CoDEmpare.WinPage
     /// </summary>
     public partial class AddingSubmit : UserControl
     {
-        private Action<List<string>> _swichToResutl;
+        private Action<ResultCompareObject> _swichToResutl;
         private bool _search;
         private string _path;
-        private List<string> _result;
+        //private List<string> _result;
+        private ResultCompareObject _resultCompare;
         private List<string> _codeList;
-        public AddingSubmit(Action<List<string>> methodResult, bool isSearch)
+        public AddingSubmit(Action<ResultCompareObject> methodResult, bool isSearch)
         {
-           _swichToResutl = methodResult;
-            _result = new List<string>();
+            _swichToResutl = methodResult;
+            _resultCompare = new ResultCompareObject();
             _codeList = new List<string>();
             _search = isSearch;
             InitializeComponent();
@@ -116,16 +118,15 @@ namespace CoDEmpare.WinPage
             {
                 lang = (string)JavaLanguage.Content;
             }
-            LoadWindow load = new LoadWindow(NameAuthor.Text, Description.Text, typeCompiler, _search, GetCode(), FileName, ref _result, CompareMy.IsChecked ?? true);
+            LoadWindow load = new LoadWindow(NameAuthor.Text, Description.Text, typeCompiler, _search, GetCode(), FileName, ref _resultCompare, CompareMy.IsChecked ?? true);
             load.ShowDialog();
             if (_search && (CompareMy.IsChecked ?? false))
             {
-                _swichToResutl(_result);
+                _swichToResutl(_resultCompare);
             }
             else if (_search && (CompareMy.IsChecked ?? true))
             {
-                LoadAlgorithmReflection myAlgorithmReflection = new LoadAlgorithmReflection(JsonConvert.DeserializeObject<List<string>>(_result[6]), 
-                    JsonConvert.DeserializeObject<List<string>>(_result[7]));
+                LoadAlgorithmReflection myAlgorithmReflection = new LoadAlgorithmReflection(_resultCompare.TokkingMainCode, _resultCompare.TokkingChildCode);
             }
             else
             {

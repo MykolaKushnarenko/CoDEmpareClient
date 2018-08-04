@@ -7,6 +7,7 @@ using System.Data;
 using System.Windows.Media.Imaging;
 using System.Drawing;
 using System.Windows.Media;
+using CoDEmpare.ObjectParamsSender;
 using CoDEmpare.WinPage;
 using Microsoft.Win32;
 using winForms = System.Windows.Forms;
@@ -81,7 +82,7 @@ namespace TextGUIModule
             GridSelection.Margin = new Thickness(0, ((indexItem * 75)), 0, 0);
         }
 
-        private void Result(List<string> resultList)
+        private void Result(ResultCompareObject resultList)
         {
             ResultPage result = new ResultPage(resultList);
             

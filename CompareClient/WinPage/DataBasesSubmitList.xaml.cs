@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TextGUIModule;
 using System.Net;
+using CoDEmpare.ObjectParamsSender;
 using CoDEmpare.SenderObject;
 using Newtonsoft.Json;
 
@@ -25,9 +26,9 @@ namespace CoDEmpare.WinPage
     /// </summary>
     public partial class DataBasesSubmitList : UserControl
     {
-        public Action<List<string>> _resultMethod;
+        public Action<ResultCompareObject> _resultMethod;
 
-        public DataBasesSubmitList(Action<List<string>> method)
+        public DataBasesSubmitList(Action<ResultCompareObject> method)
         {
             _resultMethod = method;
             InitializeComponent();
@@ -53,7 +54,7 @@ namespace CoDEmpare.WinPage
             DataExchangeWithServer getResultCompareFromSubmitList = new DataExchangeWithServer("SearchFromListSubmit", "POST", $"tagForSearch={get[get.Length - 1]}", "application/x-www-form-urlencoded", true);
             string result = await getResultCompareFromSubmitList.SendToServer();
             if (result == null) return;
-            _resultMethod(JsonConvert.DeserializeObject<List<string>>(result));
+            _resultMethod(JsonConvert.DeserializeObject<ResultCompareObject>(result));
 
 
         }

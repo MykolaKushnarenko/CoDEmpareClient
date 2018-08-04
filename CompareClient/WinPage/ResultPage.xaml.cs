@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CoDEmpare.ObjectParamsSender;
 
 namespace CoDEmpare.WinPage
 {
@@ -22,12 +23,12 @@ namespace CoDEmpare.WinPage
     {
         private readonly string _mainCode;
         private readonly string _chaildCode;
-        private readonly List<string> _resultFromServer;
-        public ResultPage(List<string> resultFromServer)
+        private readonly ResultCompareObject _resultFromServer;
+        public ResultPage(ResultCompareObject resultFromServer)
         {
             _resultFromServer = resultFromServer;
-            _mainCode = _resultFromServer[1];
-            _chaildCode = _resultFromServer[2];
+            _mainCode = _resultFromServer.MainCodeText;
+            _chaildCode = _resultFromServer.ChildCodeText;
             InitializeComponent();
             SetTextBoxes();
             Compare();
@@ -39,12 +40,6 @@ namespace CoDEmpare.WinPage
             ChildCodeText.Text = _chaildCode;
         }
 
-        private void Compare()
-        {
-            
-            ResultCompareList.Items.Add(_resultFromServer[3]);
-            ResultCompareList.Items.Add(_resultFromServer[4]);
-            ResultCompareList.Items.Add(_resultFromServer[5]);
-        }
+        private void Compare() => _resultFromServer.ResultCompare.ToList().ForEach(x => ResultCompareList.Items.Add(x));
     }
 }

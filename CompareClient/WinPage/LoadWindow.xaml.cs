@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using TextGUIModule;
 using System.Net;
 using System.Runtime.InteropServices;
+using CoDEmpare.ObjectParamsSender;
 using CoDEmpare.SenderObject;
 using Newtonsoft.Json;
 namespace CoDEmpare.WinPage
@@ -31,19 +32,19 @@ namespace CoDEmpare.WinPage
         private readonly bool _isSearch;
         private readonly byte[] _code;
         private readonly string _fileName;
-        private List<string> _result;
+        //private List<string> _result;
+        private ResultCompareObject _resultCompare;
         private readonly bool _compareLocal;
-        public LoadWindow(string name, string description, string type, bool isSearch, byte[] code, string Filename, ref List<string> result, bool compareLocal)
+        public LoadWindow(string name, string description, string type, bool isSearch, byte[] code, string Filename, ref ResultCompareObject result, bool compareLocal)
         {
             InitializeComponent();
             _name = name;
             _code = code;
             _fileName = Filename;
             _description = description;
-            _result = result;
+            _resultCompare = result;
             _typeCompile = type;
             _isSearch = isSearch;
-            _result = result;
             _compareLocal = compareLocal;
             Load();
         }
@@ -64,17 +65,17 @@ namespace CoDEmpare.WinPage
             DataExchangeWithServer getCompilName = new DataExchangeWithServer("AddCode", "POST", JsonConvert.SerializeObject(sendParams), "application/json", true);
             string result = await getCompilName.SendToServer();
             if (result == null) return;
-            List<string> resultFromServer = JsonConvert.DeserializeObject<List<string>>(result);
-            FillTheListBackResult(resultFromServer);
+            _resultCompare = JsonConvert.DeserializeObject<ResultCompareObject>(result);
+            //FillTheListBackResult(resultFromServer);
             this.Close();
         }
 
-        private void FillTheListBackResult(List<string> listFromServer)
-        {
-            foreach (string line in listFromServer)
-            {
-                _result.Add(line);
-            }
-        }
+        //private void FillTheListBackResult(List<string> listFromServer)
+        //{
+        //    foreach (string line in listFromServer)
+        //    {
+        //        _result.Add(line);
+        //    }
+        //}
     }
 }
