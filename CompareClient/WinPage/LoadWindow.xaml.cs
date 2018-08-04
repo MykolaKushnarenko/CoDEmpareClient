@@ -48,7 +48,6 @@ namespace CoDEmpare.WinPage
             _compareLocal = compareLocal;
             Load();
         }
-
         private async void Load()
         {
             AddingCodeObject sendParams = new AddingCodeObject()
@@ -65,17 +64,19 @@ namespace CoDEmpare.WinPage
             DataExchangeWithServer getCompilName = new DataExchangeWithServer("AddCode", "POST", JsonConvert.SerializeObject(sendParams), "application/json", true);
             string result = await getCompilName.SendToServer();
             if (result == null) return;
-            _resultCompare = JsonConvert.DeserializeObject<ResultCompareObject>(result);
-            //FillTheListBackResult(resultFromServer);
+            
+            FillTheListBackResult(JsonConvert.DeserializeObject<ResultCompareObject>(result));
             this.Close();
         }
 
-        //private void FillTheListBackResult(List<string> listFromServer)
-        //{
-        //    foreach (string line in listFromServer)
-        //    {
-        //        _result.Add(line);
-        //    }
-        //}
+        private void FillTheListBackResult(ResultCompareObject resultFromSerrver)
+        {
+            _resultCompare.ChildCodeText = resultFromSerrver.ChildCodeText;
+            _resultCompare.MainCodeText = resultFromSerrver.MainCodeText;
+            _resultCompare.ResultCompare = resultFromSerrver.ResultCompare;
+            _resultCompare.TokkingChildCode = resultFromSerrver.TokkingChildCode;
+            _resultCompare.TokkingMainCode = resultFromSerrver.TokkingMainCode;
+            _resultCompare.IsLocalCompare = resultFromSerrver.IsLocalCompare;
+        }
     }
 }

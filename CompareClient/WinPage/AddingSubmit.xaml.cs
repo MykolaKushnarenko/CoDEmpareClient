@@ -120,7 +120,7 @@ namespace CoDEmpare.WinPage
             }
             LoadWindow load = new LoadWindow(NameAuthor.Text, Description.Text, typeCompiler, _search, GetCode(), FileName, ref _resultCompare, CompareMy.IsChecked ?? true);
             load.ShowDialog();
-            if (_search && (CompareMy.IsChecked ?? false))
+            if (_search && !(CompareMy.IsChecked ?? true))
             {
                 _swichToResutl(_resultCompare);
             }
