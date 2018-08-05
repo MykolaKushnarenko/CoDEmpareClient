@@ -5,20 +5,19 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using CoDEmpare.ObjectParamsSender;
 using TempleteAlgorithm;
 namespace CoDEmpare
 {
     class LoadAlgorithmReflection
     {
         private readonly string _folder = Directory.GetCurrentDirectory() + "\\Algorithm\\";
-        private readonly List<string> _mainCode;
-        private readonly List<string> _childCode;
-        private List<IAlgorithm> _allCompare;
-        public LoadAlgorithmReflection(List<string> main, List<string> child)
+        private ResultCompareObject _localCompare;
+        private Dictionary<string, IAlgorithm> _compareAll;
+        public LoadAlgorithmReflection(ResultCompareObject resultServer)
         {
-            _allCompare = new List<IAlgorithm>();
-            _mainCode = main;
-            _childCode = child;
+            _localCompare = resultServer;
+            _compareAll = new Dictionary<string, IAlgorithm>();
             GetAllAlgorithms();
         }
 
@@ -34,29 +33,30 @@ namespace CoDEmpare
                     Type iInrerface = type.GetInterface("TempleteAlgorithm.IAlgorithm");
                     if (iInrerface != null)
                     {
-                        IAlgorithm myAlgorithm = (IAlgorithm)Activator.CreateInstance(type, new object[] { new List<string>(), new List<string>(), });
-                        _allCompare.Add(myAlgorithm);
+                        IAlgorithm myAlgorithm = (IAlgorithm)Activator.CreateInstance(type, new object[] { _localCompare.TokkingMainCode, _localCompare.TokkingChildCode });
+                        _compareAll.Add(type.Name, myAlgorithm);
                     }
                 }
             }
         }
 
-        public List<string> LocalCompareRun()
+        public void LocalCompareRun()
         {
-            List<string> resultLocal = new List<string>();
-            foreach (IAlgorithm algo in _allCompare)
+            
+            foreach (KeyValuePair<string, IAlgorithm> localAlgo in _compareAll)
             {
                 try
                 {
-                    
+                   double resultCompare = localAlgo.Value.CompereCode();
+                    _localCompare.ResultCompare.Add(String.Format("{1} : {0:0.##}", resultCompare, localAlgo.Key));
+
                 }
                 catch (Exception e)
                 {
-                    return null;
+                    return;
                 }
             }
 
-            return resultLocal;
         }
     }
 }

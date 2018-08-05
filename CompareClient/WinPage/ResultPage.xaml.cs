@@ -33,13 +33,13 @@ namespace CoDEmpare.WinPage
             SetTextBoxes();
             Compare();
         }
-
+        private void Compare() => _resultFromServer.ResultCompare.ToList().ForEach(x => ResultCompareList.Items.Add(x));
         private void SetTextBoxes()
         {
             MainCodeText.Text = _mainCode;
             ChildCodeText.Text = _chaildCode;
         }
 
-        private void Compare() => _resultFromServer.ResultCompare.ToList().ForEach(x => ResultCompareList.Items.Add(x));
+        
     }
 }

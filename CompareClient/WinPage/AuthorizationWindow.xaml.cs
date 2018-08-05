@@ -38,15 +38,11 @@ namespace CoDEmpare.WinPage
             _setProfilImage += methodToSetProfilImage;
         }
 
+        private void SinglInButtn_OnClick(object sender, RoutedEventArgs e) => new RegistrationWindow().ShowDialog();
         private void SkipButton_OnClick(object sender, RoutedEventArgs e)
         {
             visibleMainWindow();
             this.Close();
-        }
-
-        private void SinglInButtn_OnClick(object sender, RoutedEventArgs e)
-        {
-            new RegistrationWindow().ShowDialog();
         }
 
         private async void LoginButton_OnClick(object sender, RoutedEventArgs e)

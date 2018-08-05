@@ -32,7 +32,6 @@ namespace CoDEmpare.WinPage
         private readonly bool _isSearch;
         private readonly byte[] _code;
         private readonly string _fileName;
-        //private List<string> _result;
         private ResultCompareObject _resultCompare;
         private readonly bool _compareLocal;
         public LoadWindow(string name, string description, string type, bool isSearch, byte[] code, string Filename, ref ResultCompareObject result, bool compareLocal)
@@ -64,7 +63,6 @@ namespace CoDEmpare.WinPage
             DataExchangeWithServer getCompilName = new DataExchangeWithServer("AddCode", "POST", JsonConvert.SerializeObject(sendParams), "application/json", true);
             string result = await getCompilName.SendToServer();
             if (result == null) return;
-            
             FillTheListBackResult(JsonConvert.DeserializeObject<ResultCompareObject>(result));
             this.Close();
         }

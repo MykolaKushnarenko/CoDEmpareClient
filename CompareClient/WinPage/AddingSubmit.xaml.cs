@@ -31,7 +31,6 @@ namespace CoDEmpare.WinPage
         private Action<ResultCompareObject> _swichToResutl;
         private bool _search;
         private string _path;
-        //private List<string> _result;
         private ResultCompareObject _resultCompare;
         private List<string> _codeList;
         public AddingSubmit(Action<ResultCompareObject> methodResult, bool isSearch)
@@ -43,6 +42,7 @@ namespace CoDEmpare.WinPage
             InitializeComponent();
             PrintCompilName(CsharpLanguage.Content.ToString());
         }
+        private string FileName => System.IO.Path.GetFileName(_path);
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             ToggleButton button = (ToggleButton)sender;
@@ -126,7 +126,9 @@ namespace CoDEmpare.WinPage
             }
             else if (_search && (CompareMy.IsChecked ?? true))
             {
-                LoadAlgorithmReflection myAlgorithmReflection = new LoadAlgorithmReflection(_resultCompare.TokkingMainCode, _resultCompare.TokkingChildCode);
+                LoadAlgorithmReflection myAlgorithmReflection = new LoadAlgorithmReflection(_resultCompare);
+                myAlgorithmReflection.LocalCompareRun();
+                _swichToResutl(_resultCompare);
             }
             else
             {
@@ -142,15 +144,5 @@ namespace CoDEmpare.WinPage
             byte[] code = file.CurrentEncoding.GetBytes(file.ReadToEnd());
             return code;
         }
-        private List<string> GetCode2()
-        {
-            StreamReader file = new StreamReader(_path);
-            while (!file.EndOfStream)
-            {
-                _codeList.Add(file.ReadLine());
-            }
-            return _codeList;
-        }
-        private string FileName => System.IO.Path.GetFileName(_path);
     }
 }
